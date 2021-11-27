@@ -1,0 +1,70 @@
+########### TELEGRAM #########
+
+Criando Bot no telegram
+
+1. Abra o Telegram e procure por @BotFather.
+2. Inicie a conversa com o @BotFather.
+3.Digite o comando /newbot para iniciar a criação de um novo bot.
+4. Inserir nome do bot, exemplo: Monitoramento
+5. Ao finalizar você deve guardar o seu TOKEN
+6.Procure pelo seu bot e comece uma conversa com ele e envie uma mensagem de teste para o mesmo, pois vamos precisar descobrir o ID do seu usuário, para que ele possa lhe enviar as mensagens.
+
+PARA UM USUÁRIO PRIVADO:
+
+OUTPUT:
+{"ok":true,"result":[{
+	Parte importante abaixo
+		"chat":{"id":999999999,"first_name":"Monitoramento"},
+		text":"teste"
+	}
+}]}
+
+
+
+Pegue somente o chat ID, mas caso queira retirar de um grupo, olhe o exemplo abaixo:
+
+PARA UM GRUPO:
+
+OUTPUT:
+{"ok":true,"result":[{
+		"chat":{"id":-000000000,"title":"GRUPO LOG BACKUPS","type":"group","all_members_are_administrators":true
+	}"text":"/teste"}
+}]}
+
+Para os grupos sempre tem um sinal “-” na frente do ID. 
+
+
+Abra em seu seu navegador a seguinte URL https://api.telegram.org/botTOKEN/getUpdates para descobrir o ID do usuário que enviou a mensagem ou de um grupo conforme o exemplo abaixo.
+Endereço fixo do bot monitoramento: 
+https://api.telegram.org/bot0000000000000:AAAAAAAAAAAAAAAAAA/getUpdates      // EXEMPLO 
+TOKENWEB=0000000000000:AAAAAAAAAAAAAAAAAA                                   // EXEMPLO
+------------------------------------------------------------------------
+
+Instalar no Servidor Primário:
+
+sudo apt install curl wget zip unzip
+
+sudo wget https://raw.githubusercontent.com/Synthel/telegramBotShell/master/telegram -O /bin/telegram
+
+sudo chmod +x /bin/telegram
+
+sudo nano /bin/telegram
+
+TOKEN= "TOKENWEB"   // INSERIR O TOKEN WEB DO TELEGRAM ESTÁ ALI EM CIMA 
+
+COMPAC='zip'  // Também é possível formato tar
+
+sudo nano /home/nome_usuario/telegram.sh
+
+#!/bin/bash
+/bin/telegram -f "Inserir chat ID do usuário Privado ou grupo" "mylog.log" "log" "Logs do Sistema"
+
+sudo chmod +x /home/nome_usuario/telegram.sh
+
+##### CRONTRAB #####
+
+crontab -e
+
+00 09 * * * bash /home/nome_usuario/telegram.sh   // COLOCAR SOMENTE NO PRIMÁRIO
+
+
