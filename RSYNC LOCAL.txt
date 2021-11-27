@@ -1,0 +1,40 @@
+############# MODELO COMPLETO RSYNC LOCAL ################
+
+1 ETAPA DENTRO DO SERVIDOR QUE SERÁ REALIZADO O BACKUP
+
+##### BACKUP SH #####
+
+sudo mkdir -p /BACKUP       // Caso queira salvar em outro lugar, lembre-se de alterar o script
+
+sudo nano local_backup.sh
+
+-----------------------------------------------------------------------------
+
+#!bin/bash
+/usr/bin/rsync -ahv /home/nome_usuario_servidor /BACKUP/ --log-file=mylog.log
+ 
+
+------------------------------------------------------------------------------
+
+2.Caso a pasta tenha um espaço, exemplo: BACKUP MENSAL , utilize esse script:
+
+#!bin/bash
+/usr/bin/rsync -ahv /home/nome_usuario_servidor/BACKUP\ MENSAL/ /BACKUP/ --log-file=myloglocal.log
+
+
+--------------------------------------------------------------------------------
+
+sudo chmod +x local_backup.sh
+
+
+3.O arquivo myloglocal.log contém um log que você pode visualizar quanto tempo levou o backup, caso deseje exportar, use o script do telegram.
+
+
+
+-----------------------------------------------------------------------------
+
+##### CRONTRAB #####
+
+crontab -e
+
+00 22 * * * bash /home/nome_usuario_servidor_primario/backup.sh     // COLOCAR SOMENTE NO PRIMÁRIO
